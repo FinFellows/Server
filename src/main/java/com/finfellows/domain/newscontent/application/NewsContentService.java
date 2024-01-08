@@ -1,11 +1,14 @@
 package com.finfellows.domain.newscontent.application;
 
+import com.finfellows.domain.bookmark.domain.repository.EduContentBookmarkRepository;
+import com.finfellows.domain.educontent.domain.EduContent;
 import com.finfellows.domain.newscontent.domain.NewsContent;
 import com.finfellows.domain.newscontent.domain.repository.NewsContentRepository;
 import com.finfellows.domain.newscontent.dto.request.NewsContentRequest;
 import com.finfellows.domain.newscontent.dto.response.NewsContentResponse;
 import com.finfellows.domain.post.domain.Post;
 import com.finfellows.domain.post.domain.repository.PostRepository;
+import com.finfellows.domain.user.domain.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class NewsContentService {
     private final NewsContentRepository newsContentRepository;
     private final PostRepository postRepository;
+    private final EduContentBookmarkRepository eduContentBookmarkRepository;
 
     @Transactional
     public NewsContent createNewsContent(NewsContentResponse request) {
@@ -38,13 +42,14 @@ public class NewsContentService {
         return savedContent;
     }
 
-    public List<NewsContentResponse> getAllNewsContents() {
+    public List<NewsContentResponse> getAllNewsContents(Long userId) {
         List<NewsContent> newsContents = newsContentRepository.findAll();
         return newsContents.stream()
                 .map(newsContent -> NewsContentResponse.builder()
                         .id(newsContent.getId())
                         .title(newsContent.getTitle())
                         .content(newsContent.getContent())
+                        .bookmarked(checkBookmarked(userId, newsContent.getId())) // 북마크 여부 확인
                         .build())
                 .collect(Collectors.toList());
     }
@@ -82,5 +87,10 @@ public class NewsContentService {
                 .title(updatedContent.getTitle())
                 .content(updatedContent.getContent())
                 .build();
+    }
+
+    // 특정 뉴스 콘텐츠에 대한 북마크 여부 확인
+    private boolean checkBookmarked(Long userId, Long newsContentId) {
+        return eduContentBookmarkRepository.existsByUser_IdAndEduContent_Id(userId, newsContentId);
     }
 }

@@ -13,4 +13,5 @@ public class NewsContentResponse {
     private Long id;
     private String title;
     private String content;
+    private boolean bookmarked;
 }

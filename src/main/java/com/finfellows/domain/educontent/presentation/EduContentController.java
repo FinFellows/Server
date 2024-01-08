@@ -4,6 +4,8 @@ import com.finfellows.domain.educontent.application.EduContentService;
 import com.finfellows.domain.educontent.domain.EduContent;
 import com.finfellows.domain.educontent.dto.request.EduContentRequest;
 import com.finfellows.domain.educontent.dto.response.EduContentResponse;
+import com.finfellows.global.config.security.token.CurrentUser;
+import com.finfellows.global.config.security.token.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,8 +41,8 @@ public class EduContentController {
             @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = EduContentResponse.class)))
     })
     @GetMapping
-    public ResponseEntity<List<EduContentResponse>> getAllEduContents() {
-        List<EduContentResponse> responseList = eduContentService.getAllEduContents();
+    public ResponseEntity<List<EduContentResponse>> getAllEduContents(@CurrentUser UserPrincipal userPrincipal) {
+        List<EduContentResponse> responseList = eduContentService.getAllEduContents(userPrincipal.getId());
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 

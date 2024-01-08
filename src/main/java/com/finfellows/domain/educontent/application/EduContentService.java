@@ -1,5 +1,6 @@
 package com.finfellows.domain.educontent.application;
 
+import com.finfellows.domain.bookmark.domain.repository.EduContentBookmarkRepository;
 import com.finfellows.domain.educontent.domain.EduContent;
 import com.finfellows.domain.educontent.domain.repository.EduContentRepository;
 import com.finfellows.domain.educontent.dto.request.EduContentRequest;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class EduContentService {
     private final EduContentRepository eduContentRepository;
     private final PostRepository postRepository;
+    private final EduContentBookmarkRepository eduContentBookmarkRepository;
 
     @Transactional
     public EduContent createEduContent(EduContentResponse request) {
@@ -38,13 +40,14 @@ public class EduContentService {
         return savedContent;
     }
 
-    public List<EduContentResponse> getAllEduContents() {
+    public List<EduContentResponse> getAllEduContents(Long userId) {
         List<EduContent> eduContents = eduContentRepository.findAll();
         return eduContents.stream()
                 .map(eduContent -> EduContentResponse.builder()
                         .id(eduContent.getId())
                         .title(eduContent.getTitle())
                         .content(eduContent.getContent())
+                        .bookmarked(checkBookmarked(userId, eduContent.getId()))
                         .build())
                 .collect(Collectors.toList());
     }
@@ -82,5 +85,10 @@ public class EduContentService {
                 .title(updatedContent.getTitle())
                 .content(updatedContent.getContent())
                 .build();
+    }
+
+
+    private boolean checkBookmarked(Long userId, Long eduContentId) {
+        return eduContentBookmarkRepository.existsByUser_IdAndEduContent_Id(userId, eduContentId);
     }
 }

@@ -4,6 +4,8 @@ import com.finfellows.domain.newscontent.application.NewsContentService;
 import com.finfellows.domain.newscontent.domain.NewsContent;
 import com.finfellows.domain.newscontent.dto.request.NewsContentRequest;
 import com.finfellows.domain.newscontent.dto.response.NewsContentResponse;
+import com.finfellows.global.config.security.token.CurrentUser;
+import com.finfellows.global.config.security.token.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,8 +41,8 @@ public class NewsContentController {
             @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = NewsContentResponse.class)))
     })
     @GetMapping
-    public ResponseEntity<List<NewsContentResponse>> getAllNewsContents() {
-        List<NewsContentResponse> responseList = newsContentService.getAllNewsContents();
+    public ResponseEntity<List<NewsContentResponse>> getAllNewsContents(@CurrentUser UserPrincipal userPrincipal) {
+        List<NewsContentResponse> responseList = newsContentService.getAllNewsContents(userPrincipal.getId());
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 

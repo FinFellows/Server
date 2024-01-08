@@ -16,4 +16,5 @@ public class EduContentResponse {
     private LocalDateTime created_at;
     private String title;
     private String content;
+    private boolean bookmarked;
 }
