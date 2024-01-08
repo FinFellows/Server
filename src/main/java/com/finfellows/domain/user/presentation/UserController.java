@@ -1,11 +1,8 @@
 package com.finfellows.domain.user.presentation;
 
-import com.finfellows.domain.bookmark.application.EduContentBookmarkServiceImpl;
 import com.finfellows.domain.bookmark.application.FinancialProductBookmarkServiceImpl;
 import com.finfellows.domain.bookmark.application.PolicyInfoBookmarkServiceImpl;
 import com.finfellows.domain.bookmark.application.PostBookmarkServiceImpl;
-import com.finfellows.domain.user.application.UserService;
-import com.finfellows.domain.user.domain.User;
 import com.finfellows.global.config.security.token.CurrentUser;
 import com.finfellows.global.config.security.token.UserPrincipal;
 import com.finfellows.global.payload.ErrorResponse;
@@ -19,8 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    private final EduContentBookmarkServiceImpl eduContentBookmarkService;
     private final FinancialProductBookmarkServiceImpl financialProductBookmarkService;
     private final PolicyInfoBookmarkServiceImpl policyInfoBookmarkService;
     private final PostBookmarkServiceImpl postBookmarkService;

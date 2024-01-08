@@ -36,15 +36,15 @@ public class AuthController {
     private final KakaoService kakaoService;
 
 
-    @Operation(summary = "카카오 code 발급", description = "카카오 API 서버에 접근 권한을 인가하는 code를 발급받습니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "code 발급 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = AuthRes.class))}),
-            @ApiResponse(responseCode = "400", description = "code 발급 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
-    })
-    @GetMapping(value = "/login")
-    public void socialLoginRedirect() throws IOException {
-        kakaoService.accessRequest();
-    }
+//    @Operation(summary = "카카오 code 발급", description = "카카오 API 서버에 접근 권한을 인가하는 code를 발급받습니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "code 발급 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = AuthRes.class))}),
+//            @ApiResponse(responseCode = "400", description = "code 발급 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+//    })
+//    @GetMapping(value = "/login")
+//    public void socialLoginRedirect() throws IOException {
+//        kakaoService.accessRequest();
+//    }
 
     @Operation(summary = "유저 정보 확인", description = "현재 접속 중인 유저의 정보를 확인합니다.")
     @ApiResponses(value = {
@@ -123,6 +123,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "토큰 갱신 성공", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = AuthRes.class) ) } ),
             @ApiResponse(responseCode = "400", description = "토큰 갱신 실패", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class) ) } ),
     })
+    @PostMapping("/refresh")
     public ResponseEntity<?> refresh(
             @Parameter(description = "Schemas의 RefreshTokenReq를 참고해주세요.", required = true) @Valid @RequestBody RefreshTokenReq refreshTokenReq
     ) {

@@ -1,6 +1,5 @@
 package com.finfellows.domain.bookmark.presentation;
 
-import com.finfellows.domain.bookmark.application.EduContentBookmarkServiceImpl;
 import com.finfellows.domain.bookmark.application.FinancialProductBookmarkServiceImpl;
 import com.finfellows.domain.bookmark.application.PolicyInfoBookmarkServiceImpl;
 import com.finfellows.domain.bookmark.application.PostBookmarkServiceImpl;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/bookmarks")
 public class BookmarkController {
-    private final EduContentBookmarkServiceImpl eduContentBookmarkService;
     private final FinancialProductBookmarkServiceImpl financialProductBookmarkService;
     private final PolicyInfoBookmarkServiceImpl policyInfoBookmarkService;
     private final PostBookmarkServiceImpl postBookmarkService;
